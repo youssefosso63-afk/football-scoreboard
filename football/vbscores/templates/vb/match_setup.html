@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Up Match</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background-color: #12161f; color: #eceef2; padding: 60px 20px; }
+        select, button { font-size: 16px; padding: 8px 12px; margin: 10px; }
+        button { background-color: #50eaa8; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Choose Teams</h1>
+    <form action="{% url 'live_redirect' %}" method="get">
+        <select name="team1">
+            {% for team in teams %}
+            <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        vs
+        <select name="team2">
+            {% for team in teams %}
+            <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <button type="submit">Start Match</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Upcoming Matches - Score system</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                text-align: center;
+                background-color: #12161f;
+                color: #eceef2;
+                min-height: 100vh;
+                margin: 0;
+                margin-left: 240px;
+                padding: 40px 20px;
+                box-sizing: border-box;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 240px;
+                background: #1a1a1a;
+                border-right: 2px solid #50eaa8;
+                padding: 30px 15px;
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+            }
+            .sidebar a { text-decoration: none; width: 100%; display: block; }
+            .hypers {
+                width: 100%;
+                background-color: #2a2f3d;
+                color: #eceef2;
+                border: 1px solid #3a4155;
+                padding: 12px 15px;
+                margin-bottom: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 15px;
+                font-weight: 600;
+                text-align: left;
+            }
+            .hypers:hover { background-color: #50eaa8; color: #12161f; }
+            h1 { color: #50eaa8; }
+            .List { max-width: 600px; margin: 0 auto; }
+            .List ul { list-style: none; padding: 0; }
+            .List li {
+                background-color: #2a2f3d;
+                border: 1px solid #3a4155;
+                border-left: 4px solid #50eaa8;
+                border-radius: 5px;
+                padding: 15px 20px;
+                margin-bottom: 10px;
+                text-align: left;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <a href="{% url 'index' %}"><button class="hypers">Scoreboard</button></a>
+            <a href="{% url 'mvp_list' %}"><button class="hypers">MVP Players</button></a>
+            <a href="{% url 'played_matches' %}"><button class="hypers">Played Matches</button></a>
+        </div>
+        <div class="List">
+            <h1>Upcoming Matches</h1>
+            <ul>
+                {% for match in matches %}
+                <li>{{ match.team1.name }} vs {{ match.team2.name }} — {{ match.scheduled_date }}</li>
+                {% empty %}
+                <li>No upcoming matches scheduled.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>

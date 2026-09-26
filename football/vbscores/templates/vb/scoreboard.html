@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Scoreboard - Score system</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                text-align: center;
+                background-color: #12161f;
+                color: #eceef2;
+                min-height: 100vh;
+                margin: 0;
+                margin-left: 240px;
+                padding: 40px 20px;
+                box-sizing: border-box;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 240px;
+                background: #1a1a1a;
+                border-right: 2px solid #ffd700;
+                padding: 30px 15px;
+                color: #eee;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+                box-sizing: border-box;
+                z-index: 1000;
+            }
+            .sidebar a {
+                text-decoration: none;
+                width: 100%;
+                display: block;
+            }
+            .hypers {
+                width: 100%;
+                background-color: #2a2f3d;
+                color: #eceef2;
+                border: 1px solid #3a4155;
+                padding: 12px 15px;
+                margin-bottom: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 15px;
+                font-weight: 600;
+                text-align: left;
+                transition: all 0.2s ease;
+            }
+            .hypers:hover {
+                background-color: #ffd700;
+                color: #12161f;
+                border-color: #ffd700;
+            }
+            .scoreboard_place {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+            h1 {
+                color: #ffd700;
+                letter-spacing: 1px;
+                margin-bottom: 30px;
+            }
+
+            .scoreboard {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            .scoreboard_row {
+                display: grid;
+                grid-template-columns: 50px 1fr 70px 70px 70px 80px;
+                align-items: center;
+                padding: 14px 18px;
+                margin-bottom: 10px;
+                border-radius: 6px;
+                text-align: center;
+            }
+            .scoreboard_header {
+                background-color: transparent;
+                color: #a6acba;
+                font-weight: 700;
+                font-size: 13px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                border-bottom: 2px solid #3a4155;
+                border-radius: 0;
+                margin-bottom: 15px;
+            }
+            .team_row {
+                background-color: #2a2f3d;
+                border: 1px solid #3a4155;
+                border-left: 4px solid #50eaa8;
+                font-size: 15px;
+                transition: transform 0.15s ease, border-color 0.15s ease;
+            }
+
+            .team_row:hover {
+                transform: translateX(4px);
+                border-color: #ffd700;
+            }
+            .team_row.rank_1 {
+                border-left-color: #ffd700;
+                background-color: #2e2a1f;
+            }
+            .col_team {
+                text-align: left;
+                font-weight: bold;
+                color: #ffffff;
+                padding-left: 10px;
+            }
+            .col_rank {
+                font-weight: bold;
+                color: #a6acba;
+            }
+
+            .rank_1 .col_rank {
+                color: #ffd700;
+            }
+
+            .col_pts {
+                font-weight: bold;
+                color: #ffd700;
+            }
+
+            .col_win {
+                color: #50eaa8;
+            }
+
+            .col_loss {
+                color: #ff6b6b;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <a href="{% url 'mvp_list' %}"><button class="hypers">MVP Players</button></a>
+            <a href="{% url 'upcoming_matches' %}"><button class="hypers">Matches Timeline</button></a>
+            <a href="{% url 'played_matches' %}"><button class="hypers">Played Matches</button></a>
+        </div>
+
+        <div class="scoreboard_place">
+            <h1>Scoreboard</h1>
+
+            <ul class="scoreboard">
+                <li class="scoreboard_row scoreboard_header">
+                    <span class="col_rank">#</span>
+                    <span class="col_team">Team</span>
+                    <span class="col_matches">Matches</span>
+                    <span class="col_win">W</span>
+                    <span class="col_loss">L</span>
+                    <span class="col_pts">Pts</span>
+                </li>
+                {% for score in scores %}
+                <li class="scoreboard_row team_row {% if forloop.counter == 1 %}rank_1{% endif %}">
+                    <span class="col_rank">{{ forloop.counter }}</span>
+                    <span class="col_team">{{ score.team.name }}</span>
+                    <span class="col_matches">{{ score.matches }}</span>
+                    <span class="col_win">{{ score.W }}</span>
+                    <span class="col_loss">{{ score.L }}</span>
+                    <span class="col_pts">{{ score.pts }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>

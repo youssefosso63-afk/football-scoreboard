@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule a Match</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background-color: #12161f; color: #eceef2; padding: 60px 20px; }
+        select, input, button { font-size: 16px; padding: 8px 12px; margin: 10px; }
+        button { background-color: #50eaa8; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Schedule a Match</h1>
+    <form method="post">
+        {% csrf_token %}
+        <select name="team1">
+            {% for team in teams %}
+            <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        vs
+        <select name="team2">
+            {% for team in teams %}
+            <option value="{{ team.id }}">{{ team.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label>Date & time: <input type="datetime-local" name="scheduled_date" required></label>
+        <br>
+        <button type="submit">Schedule</button>
+    </form>
+</body>
+</html>

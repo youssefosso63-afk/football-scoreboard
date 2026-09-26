@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Score system</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                text-align: center;
+                background-color: #12161f;
+                color: #eceef2;
+                min-height: 100vh;
+                margin: 0;
+                margin-left: 240px;
+                padding: 40px 0;
+            }
+            .scoreboard {
+                display: flex;
+                justify-content: center;
+                gap: 60px;
+                margin-bottom: 20px;
+            }
+            .team_part {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-width: 300px;
+            }
+            .team_part h2 {
+                color: white;
+                font-size: 30px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                margin-bottom: 4px;
+            }
+            .team_part h1 {
+                font-size: 60px;
+                margin: 0;
+                color: #f2a53d;
+            }
+            .button-group {
+                display: flex;
+                gap: 10px;
+                margin: 15px 0;
+            }
+            .team_part ol {
+                text-align: left;
+                width: 100%;
+                font-size: 18px;
+                padding-left: 25px;
+                margin-top: 10px;
+            }
+            .player_row {
+                margin-bottom: 8px;
+            }
+            .player_content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                width: 100%;
+            }
+            .team_part .buti {
+                background-color: #f2a53d;
+                color: #3d2603;
+                font-size: 20px;
+                font-weight: 600;
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: none;
+                cursor: pointer;
+            }
+            .buti:hover, .buti:active {
+                background-color: #ffbf66;
+            }
+            .butd {
+                background-color: #2a2f3d;
+                color: #e0563f;
+                font-size: 20px;
+                font-weight: 600;
+                padding: 10px 20px;
+                border-radius: 5px;
+                border: 1px solid #e0563f;
+                cursor: pointer;
+            }
+            .butd:hover, .butd:active {
+                background-color: #e0563f;
+                color: #1a2130;
+            }
+            .res {
+                background-color: rgb(9, 9, 109);
+                color: #eceef2;
+                font-size: 16px;
+                padding: 10px 20px;
+                border-radius: 5px;
+                margin: 30px 10px 10px;
+                border: 1px solid #3a4155;
+                cursor: pointer;
+            }
+            .res:hover, .res:active {
+                background-color: #1a2130;
+                color: #eceef2;
+            }
+            .vs {
+                font-size: 40px;
+                color: red;
+                margin: 0 20px;
+            }
+            .sub {
+                background-color: #00749a;
+                color: #eceef2;
+                font-size: 16px;
+                padding: 10px 20px;
+                border-radius: 5px;
+                margin: 30px 10px 10px;
+                border: 1px solid #3a4155;
+                cursor: pointer;
+            }
+            .sub:hover, .sub:active {
+                background-color: #1a2130;
+                color: #eceef2;
+            }
+            .MVP {
+                background-color: #2a2f3d;
+                color: #a6acba;
+                font-size: 12px;
+                font-weight: 700;
+                padding: 4px 12px;
+                border-radius: 20px;
+                border: 1px solid #3a4155;
+                cursor: pointer;
+                transition: all 0.2s ease-in-out;
+                margin-left: 15px;
+            }
+            .MVP:hover {
+                border-color: #ff9306;
+                color: #ffffff;
+            }
+            .MVP.selected {
+                background-color: #ff9306;
+                color: #12161f;
+                border-color: #ff9306;
+                box-shadow: 0 0 10px rgba(255, 147, 6, 0.4);
+            }
+            .set_display {
+                font-size: 18px;
+                color: #a6acba;
+                margin-top: 5px;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 240px;
+                background: #1a1a1a;
+                border-right: 2px solid #50eaa8;
+                padding: 30px 15px;
+                color: #eee;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 2px 0 12px rgba(0,0,0,0.4);
+                box-sizing: border-box;
+                z-index: 1000;
+            }
+            .sidebar a {
+                text-decoration: none;
+                width: 100%;
+                display: block;
+            }
+            .hypers {
+                width: 100%;
+                background-color: #2a2f3d;
+                color: #eceef2;
+                border: 1px solid #3a4155;
+                padding: 12px 15px;
+                margin-bottom: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 15px;
+                font-weight: 600;
+                text-align: left;
+                transition: all 0.2s ease;
+            }
+            .hypers:hover {
+                background-color: #50eaa8;
+                color: #12161f;
+                border-color: #50eaa8;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <a href="{% url 'index' %}"><button class="hypers">Scoreboard</button></a>
+            <a href="{% url 'upcoming_matches' %}"><button class="hypers">Matches Timeline</button></a>
+            <a href="{% url 'played_matches' %}"><button class="hypers">Played Matches</button></a>
+            <a href="{% url 'mvp_list' %}"><button class="hypers">MVP Players</button></a>
+        </div>
+        <div class="scoreboard">
+            <div class="team_part">
+                <h2>{{ team1.name }}</h2>
+                <h1 id="team1">0</h1>
+                <div class="button-group">
+                    <button type="button" id="inc_t1" class="buti">+ Point</button>
+                    <button type="button" id="dec_t1" class="butd">- Point</button>
+                </div>
+                <ol id="team1_players">
+                    {% for member in team1.members_list %}
+                    <li class="player_row">
+                        <div class="player_content">
+                            <span>{{ member }}</span>
+                            <button type="button" class="MVP">MVP</button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div>
+            <h2 class="vs">VS</h2>
+            <div class="team_part">
+                <h2>{{ team2.name }}</h2>
+                <h1 id="team2">0</h1>
+                <div class="button-group">
+                    <button type="button" id="inc_t2" class="buti">+ Point</button>
+                    <button type="button" id="dec_t2" class="butd">- Point</button>
+                </div>
+                <ol id="team2_players">
+                    {% for member in team2.members_list %}
+                    <li class="player_row">
+                        <div class="player_content">
+                            <span>{{ member }}</span>
+                            <button type="button" class="MVP">MVP</button>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+        <button type="button" id="res" class="res">Reset Score</button>
+        <button type="button" id="sub" class="sub">Submit Score</button>
+
+        <script>
+            let t1 = 0;
+            let t2 = 0;
+
+            function checkDeuceAndWin() {
+                document.getElementById("team1").textContent = t1;
+                document.getElementById("team2").textContent = t2;
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById("inc_t1").addEventListener("click", function() {
+                    t1++;
+                    checkDeuceAndWin();
+                });
+
+                document.getElementById("dec_t1").addEventListener("click", function() {
+                    if (t1 > 0) t1--;
+                    document.getElementById("team1").textContent = t1;
+                });
+
+                document.getElementById("inc_t2").addEventListener("click", function() {
+                    t2++;
+                    checkDeuceAndWin();
+                });
+
+                document.getElementById("dec_t2").addEventListener("click", function() {
+                    if (t2 > 0) t2--;
+                    document.getElementById("team2").textContent = t2;
+                });
+
+                document.getElementById("res").addEventListener("click", function() {
+                    t1 = 0;
+                    t2 = 0;
+                    document.getElementById("team1").textContent = t1;
+                    document.getElementById("team2").textContent = t2;
+                    document.querySelectorAll('.MVP').forEach(btn => btn.classList.remove('selected'));
+                });
+
+                const mvpButtons = document.querySelectorAll('.MVP');
+                mvpButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const isSelected = this.classList.contains('selected');
+                        mvpButtons.forEach(btn => btn.classList.remove('selected'));
+                        if (!isSelected) {
+                            this.classList.add('selected');
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MVP Players - Score system</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                text-align: center;
+                background-color: #141311;
+                color: #eceef2;
+                min-height: 100vh;
+                margin: 0;
+                margin-left: 240px;
+                padding: 40px 0;
+            }
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 240px;
+                background: #1a1815;
+                border-right: 2px solid #ffd700;
+                padding: 30px 15px;
+                color: #eee;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 2px 0 12px rgba(0,0,0,0.5);
+                box-sizing: border-box;
+                z-index: 1000;
+            }
+            .sidebar a {
+                text-decoration: none;
+                width: 100%;
+                display: block;
+            }
+            .hypers {
+                width: 100%;
+                background-color: #27231e;
+                color: #eceef2;
+                border: 1px solid #3d362d;
+                padding: 12px 15px;
+                margin-bottom: 12px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 15px;
+                font-weight: 600;
+                text-align: left;
+                transition: all 0.2s ease;
+            }
+            .hypers:hover {
+                background-color: #ffd700;
+                color: #141311;
+                border-color: #ffd700;
+            }
+            .List {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .List h1 {
+                color: #ffd700;
+                letter-spacing: 1px;
+            }
+
+            .List ul {
+                list-style: none;
+                padding: 0;
+                margin: 20px 0;
+            }
+
+            .List li {
+                background-color: #221f1a;
+                border: 1px solid #3d362d;
+                border-left: 4px solid #ffd700;
+                border-radius: 5px;
+                padding: 15px 20px;
+                margin-bottom: 12px;
+                text-align: left;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 16px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            }
+
+            .List li .item_label {
+                color: #a6acba;
+                margin-right: 6px;
+            }
+
+            .List li .item_value {
+                color: #ffffff;
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="sidebar">
+            <a href="{% url 'index' %}"><button class="hypers">Scoreboard</button></a>
+            <a href="{% url 'upcoming_matches' %}"><button class="hypers">Matches Timeline</button></a>
+            <a href="{% url 'played_matches' %}"><button class="hypers">Played Matches</button></a>
+        </div>
+        <div class="List">
+            <h1>MVP Players</h1>
+            <ul>
+                {% for match in matches %}
+                <li>
+                    <div><span class="item_label">Match:</span><span class="item_value">{{ match.team1.name }} vs {{ match.team2.name }}</span></div>
+                    <div><span class="item_label">Player:</span><span class="item_value">{{ match.mvp_name }}</span></div>
+                </li>
+                {% empty %}
+                <li>No MVPs recorded yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </body>
+</html>
