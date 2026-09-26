@@ -9,6 +9,9 @@ class Team(models.Model):
     mem4 = models.CharField(max_length=100)
     mem5 = models.CharField(max_length=100)
     mem6 = models.CharField(max_length=100)
+    mem7 = models.CharField(max_length=100)
+    mem8 = models.CharField(max_length=100)
+    mem9 = models.CharField(max_length=100)
 
     def members_list(self):
         return [self.captian, self.mem1, self.mem2, self.mem3, self.mem4, self.mem5, self.mem6]
