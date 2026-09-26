@@ -16,6 +16,7 @@ class Team(models.Model):
 class Score(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     W = models.IntegerField(default=0)
+    D = models.IntegerField(default=0)
     L = models.IntegerField(default=0)
     pts = models.IntegerField(default=0)
     matches = models.IntegerField(default=0)
