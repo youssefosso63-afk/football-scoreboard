@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Scoreboard - Score system</title>
         <style>
+            * {
+                box-sizing: border-box;
+            }
             body {
                 font-family: sans-serif;
                 text-align: center;
@@ -112,6 +115,9 @@
                 font-weight: bold;
                 color: #ffffff;
                 padding-left: 10px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
             .col_rank {
                 font-weight: bold;
@@ -137,10 +143,85 @@
             .col_draw {
                 color: #CCC;
             }
+
+            .menu_toggle {
+                display: none;
+                position: fixed;
+                top: 16px;
+                left: 16px;
+                z-index: 1100;
+                width: 44px;
+                height: 44px;
+                background: #1a1a1a;
+                border: 2px solid #ffd700;
+                border-radius: 6px;
+                color: #ffd700;
+                font-size: 20px;
+                cursor: pointer;
+            }
+            .sidebar_overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+
+            @media (max-width: 900px) {
+                body {
+                    margin-left: 0;
+                    padding: 90px 16px 30px;
+                }
+                .sidebar {
+                    transform: translateX(-100%);
+                    transition: transform 0.25s ease;
+                    width: 220px;
+                }
+                .sidebar.open {
+                    transform: translateX(0);
+                }
+                .sidebar_overlay.open {
+                    display: block;
+                }
+                .menu_toggle {
+                    display: block;
+                }
+                .scoreboard_place {
+                    max-width: 100%;
+                }
+                h1 {
+                    font-size: 26px;
+                    margin-bottom: 20px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                body {
+                    padding: 80px 8px 20px;
+                }
+                h1 {
+                    font-size: 22px;
+                }
+                .scoreboard_row {
+                    grid-template-columns: 28px 1fr 44px 30px 30px 30px 40px;
+                    padding: 10px 8px;
+                    gap: 4px;
+                    font-size: 13px;
+                }
+                .scoreboard_header {
+                    font-size: 10px;
+                }
+                .col_team {
+                    padding-left: 4px;
+                }
+            }
         </style>
     </head>
     <body>
-        <div class="sidebar">
+        <button class="menu_toggle" id="menuToggle" aria-label="Open menu">&#9776;</button>
+        <div class="sidebar_overlay" id="sidebarOverlay"></div>
+
+        <div class="sidebar" id="sidebar">
             <a href="{% url 'mvp_list' %}"><button class="hypers">MVP Players</button></a>
             <a href="{% url 'upcoming_matches' %}"><button class="hypers">Matches Timeline</button></a>
             <a href="{% url 'played_matches' %}"><button class="hypers">Played Matches</button></a>
@@ -172,5 +253,22 @@
                 {% endfor %}
             </ul>
         </div>
+
+        <script>
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            function closeMenu() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('open');
+            }
+
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', closeMenu);
+        </script>
     </body>
 </html>
