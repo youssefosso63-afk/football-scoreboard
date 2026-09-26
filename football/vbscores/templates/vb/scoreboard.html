@@ -73,7 +73,7 @@
             }
             .scoreboard_row {
                 display: grid;
-                grid-template-columns: 50px 1fr 70px 70px 70px 80px;
+                grid-template-columns: 50px 1fr 70px 60px 60px 60px 70px;
                 align-items: center;
                 padding: 14px 18px;
                 margin-bottom: 10px;
@@ -165,7 +165,7 @@
                     <span class="col_team">{{ score.team.name }}</span>
                     <span class="col_matches">{{ score.matches }}</span>
                     <span class="col_win">{{ score.W }}</span>
-                    <span class="col_win">{{ score.D }}</span>
+                    <span class="col_draw">{{ score.D }}</span>
                     <span class="col_loss">{{ score.L }}</span>
                     <span class="col_pts">{{ score.pts }}</span>
                 </li>
